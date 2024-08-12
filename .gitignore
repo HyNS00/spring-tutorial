@@ -12,7 +12,10 @@ gradle-app.setting
 .gradletasknamecache
 
 .idea/dataSources.xml
-
+# IntelliJ IDEA files
+.idea/
+*.iml
+*.iws
 /src/main/resources/application.yml
 
 # # Work around https://youtrack.jetbrains.com/issue/IDEA-116898
