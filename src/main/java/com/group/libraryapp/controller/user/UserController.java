@@ -45,11 +45,24 @@ public class UserController {
 
     @PutMapping("/user")
     public void updateUser(@RequestBody UserUpdateRequest request){
+        // 예외처리를 하기 위한 코드 -> 데이터 조회
+        String readSql = "SELECT * FROM user WHERE id = ?";
+        // jdbcTemplate.query는 기본적으로 리스트를 반환
+        boolean isNotExisted = jdbcTemplate.query(readSql, (rs,rowNum) -> 0, request.getId()).isEmpty();
+        // 값이 존재한다면 [0]반환, 아니라면 빈 리스트
+        if(isNotExisted){
+            throw new IllegalArgumentException();
+        }
         String sql = "UPDATE user SET name = ? WHERE id = ?";
         jdbcTemplate.update(sql, request.getName(), request.getId());
     }
     @DeleteMapping("/user")
     public void deleteUser(@RequestParam String name){
+        String readSql = "SELECT * FROM user WHERE name = ?";
+        boolean isNotExisted = jdbcTemplate.query(readSql,(rs, rowNum) -> 0, name).isEmpty();
+        if(isNotExisted){
+            throw new IllegalArgumentException();
+        }
         String sql = "DELETE FROM user WHERE name = ?";
         jdbcTemplate.update(sql, name);
     }
