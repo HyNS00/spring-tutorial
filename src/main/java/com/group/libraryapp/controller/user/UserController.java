@@ -3,6 +3,7 @@ package com.group.libraryapp.controller.user;
 import com.group.libraryapp.dto.user.request.UserCreateRequest;
 import com.group.libraryapp.dto.user.request.UserUpdateRequest;
 import com.group.libraryapp.dto.user.response.UserResponse;
+import com.group.libraryapp.service.user.UserService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +17,10 @@ public class UserController {
     // private final List<User> users = new ArrayList<>();
     // 유저를 필드로 관리하던 것을 db와 연결해서 사용
     private final JdbcTemplate jdbcTemplate;
-
+    private final UserService userService;
     public UserController(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.userService = new UserService(jdbcTemplate);
     }
 
     @PostMapping("/user") //POST/user
@@ -43,26 +45,11 @@ public class UserController {
 
     @PutMapping("/user")
     public void updateUser(@RequestBody UserUpdateRequest request){
-        // 예외처리를 하기 위한 코드 -> 데이터 조회
-        String readSql = "SELECT * FROM user WHERE id = ?";
-        // jdbcTemplate.query는 기본적으로 리스트를 반환
-        boolean isNotExisted = jdbcTemplate.query(readSql, (rs,rowNum) -> 0, request.getId()).isEmpty();
-        // 값이 존재한다면 [0]반환, 아니라면 빈 리스트
-        if(isNotExisted){
-            throw new IllegalArgumentException();
-        }
-        String sql = "UPDATE user SET name = ? WHERE id = ?";
-        jdbcTemplate.update(sql, request.getName(), request.getId());
+        userService.updateUser(request);
     }
     @DeleteMapping("/user")
     public void deleteUser(@RequestParam String name){
-        String readSql = "SELECT * FROM user WHERE name = ?";
-        boolean isNotExisted = jdbcTemplate.query(readSql,(rs, rowNum) -> 0, name).isEmpty();
-        if(isNotExisted){
-            throw new IllegalArgumentException();
-        }
-        String sql = "DELETE FROM user WHERE name = ?";
-        jdbcTemplate.update(sql, name);
+        userService.deleteUser(name);
     }
 
 }
