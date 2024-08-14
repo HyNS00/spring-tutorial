@@ -15,8 +15,8 @@ public class UserController {
     // 유저를 필드로 관리하던 것을 db와 연결해서 사용
 
     private final UserService userService;
-    public UserController(JdbcTemplate jdbcTemplate) {
-        this.userService = new UserService(jdbcTemplate);
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping("/user") //POST/user
