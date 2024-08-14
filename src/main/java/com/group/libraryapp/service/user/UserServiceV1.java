@@ -3,39 +3,38 @@ package com.group.libraryapp.service.user;
 import com.group.libraryapp.dto.user.request.UserCreateRequest;
 import com.group.libraryapp.dto.user.request.UserUpdateRequest;
 import com.group.libraryapp.dto.user.response.UserResponse;
-import com.group.libraryapp.repository.user.UserRepository;
-import org.springframework.jdbc.core.JdbcTemplate;
+import com.group.libraryapp.repository.user.UserJdbcRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class UserService {
-    private final UserRepository userRepository;
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+public class UserServiceV1 {
+    private final UserJdbcRepository userJdbcRepository;
+    public UserServiceV1(UserJdbcRepository userJdbcRepository) {
+        this.userJdbcRepository = userJdbcRepository;
     }
     public void saveUser(UserCreateRequest request){
-        userRepository.saveUser(request.getName(), request.getAge());
+        userJdbcRepository.saveUser(request.getName(), request.getAge());
     }
 
     public List<UserResponse> getUsers(){
-        return userRepository.getUsers();
+        return userJdbcRepository.getUsers();
     }
 
     public void updateUser(UserUpdateRequest request){
-        boolean isNotExisted = userRepository.isUserNotExisted(request.getId());
+        boolean isNotExisted = userJdbcRepository.isUserNotExisted(request.getId());
         if(isNotExisted){
             throw new IllegalArgumentException();
         }
-        userRepository.updateUserNow(request.getName(),request.getId());
+        userJdbcRepository.updateUserNow(request.getName(),request.getId());
     }
 
     public void deleteUser(String name) {
         // 지우려는 사용자가 있는지 체크
-        boolean isNotExisted = userRepository.isUserNotExisted(name);
+        boolean isNotExisted = userJdbcRepository.isUserNotExisted(name);
         if(isNotExisted){
             throw new IllegalArgumentException();
         }
-        userRepository.deleteUserNow(name);
+        userJdbcRepository.deleteUserNow(name);
     }
 }
