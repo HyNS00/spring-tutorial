@@ -6,6 +6,8 @@ import com.group.libraryapp.dto.user.request.UserCreateRequest;
 import com.group.libraryapp.dto.user.request.UserUpdateRequest;
 import com.group.libraryapp.dto.user.response.UserResponse;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,5 +37,14 @@ public class UserServiceV2 {
                 .orElseThrow(IllegalArgumentException::new);
        user.updateName(request.getName());
        userRepository.save(user);
+    }
+
+    public void deleteUser(String name){
+       User user =  userRepository.findByName(name);
+       // 반환값이 user니까 user가 없다면 null호출
+        if(user == null){
+            throw new IllegalArgumentException();
+        }
+        userRepository.delete(user);
     }
 }
