@@ -38,7 +38,7 @@ public class UserServiceV2 {
        User user =  userRepository.findById(request.getId())
                 .orElseThrow(IllegalArgumentException::new);
        user.updateName(request.getName());
-       userRepository.save(user);
+//       userRepository.save(user);
     }
     @Transactional
     public void deleteUser(String name){
