@@ -18,9 +18,14 @@ public class UserLoanHistory {
     protected UserLoanHistory() {
     }
 
-    public UserLoanHistory(long userId, String bookName, boolean isReturn) {
+    public UserLoanHistory(long userId, String bookName) {
         this.userId = userId;
         this.bookName = bookName;
-        this.isReturn = isReturn;
+        this.isReturn = false;
+    }
+
+    //대출 상태를 true로 바꿔줌
+    public void doReturn(){
+        this.isReturn = true;
     }
 }
