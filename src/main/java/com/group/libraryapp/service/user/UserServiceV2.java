@@ -42,11 +42,10 @@ public class UserServiceV2 {
     }
     @Transactional
     public void deleteUser(String name){
-       User user =  userRepository.findByName(name);
+       User user =  userRepository.findByName(name)
+               .orElseThrow(IllegalArgumentException::new);
        // 반환값이 user니까 user가 없다면 null호출
-        if(user == null){
-            throw new IllegalArgumentException();
-        }
+
         userRepository.delete(user);
     }
 }
