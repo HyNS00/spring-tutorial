@@ -1,6 +1,10 @@
 package com.group.libraryapp.domain.user;
 
+import com.group.libraryapp.domain.user.loanhistory.UserLoanHistory;
+
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 // User 객체와 user테이블을 같은 것으로 바라보게 만듦
@@ -12,7 +16,8 @@ public class User {
     // @Column을 통해 객체의 name과 테이블의 name을 매핑
     @Column(nullable = false, length = 20) // name varchar(20) , 필드명과 테이블 컬럼 명이 같아서 생략가능
     private String name;
-
+    @OneToMany(mappedBy = "user")
+    private List<UserLoanHistory> userLoanHistories = new ArrayList<>();
     private Integer age;
     // jpa에는 기본생성자가 꼭 필요
     protected User(){}
