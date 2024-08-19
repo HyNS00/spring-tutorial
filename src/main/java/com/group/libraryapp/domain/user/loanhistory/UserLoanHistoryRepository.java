@@ -8,5 +8,5 @@ public interface UserLoanHistoryRepository extends JpaRepository<UserLoanHistory
     // SELECT * FROM user_loan_history where book_name = ? and is_return = ?;
     boolean existsByBookNameAndIsReturn(String bookName, boolean isReturn);
 
-    Optional<UserLoanHistory> findByUserIdAndBookName(long userId, String bookName);
+//    Optional<UserLoanHistory> findByUserIdAndBookName(long userId, String bookName);
 }
