@@ -1,6 +1,8 @@
 package com.group.libraryapp.domain.user;
 
 import com.group.libraryapp.domain.user.loanhistory.UserLoanHistory;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Entity
 // User 객체와 user테이블을 같은 것으로 바라보게 만듦
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 기본생성자 생성 , 접근 수준은 protected
 public class User {
     @Id // primary key로 간주
     @GeneratedValue(strategy = GenerationType.IDENTITY) // primary Key는 자동생성되는 값이다
@@ -20,7 +23,7 @@ public class User {
     private List<UserLoanHistory> userLoanHistories = new ArrayList<>();
     private Integer age;
     // jpa에는 기본생성자가 꼭 필요
-    protected User(){}
+//    protected User(){}
     public User(String name, Integer age) {
         if(name == null || name.isBlank()){
             throw new IllegalArgumentException(String.format("잘못된 (%s)이 들어왔습니다.",name));
